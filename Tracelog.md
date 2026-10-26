@@ -35,4 +35,5 @@
 - `:fabric:build :neoforge:build` passed: 23 tasks, 8 executed and 15 up-to-date. Neither loader has unit-test sources, so NO-SOURCE test tasks are not counted as tests.
 - Both platform JARs passed the packaging helper's metadata/class checks; both ZIPs contain their exact matching JAR. Local release preparation passed for `v2.1.0-modded`.
 - `actionlint` 1.7.12 validated the workflow without errors; `git diff --check` passed.
-- A local build or a pushed workflow is not evidence that a hosted Actions run or GitHub Release publication has completed.
+- The first [hosted Actions run](https://github.com/DeInfernal/ChalkAIModded/actions/runs/40323682951) completed successfully for both Fabric and NeoForge, including packaging and artifact upload. The publication job was correctly skipped for a branch push.
+- GitHub Release publication itself has not been executed; it requires a version tag or a manual run with `publish` enabled.
