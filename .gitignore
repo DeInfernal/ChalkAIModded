@@ -116,3 +116,10 @@ run/
 !gradle-wrapper.jar
 
 /common/src/generated/.cache/
+
+# CI release artifacts
+/dist/
+/release-notes.md
+
+# Python release-helper bytecode
+__pycache__/
