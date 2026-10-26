@@ -63,7 +63,7 @@ loom {
         data {
             data()
             programArgs "--all", "--mod", "${mod_id}"
-            programArgs "--output", project(':common').file("src/generated/resources").absolutePath // Outputs to common project
+            programArgs "--output", providers.gradleProperty("chalkDatagenOutput").getOrElse(project(':common').file("src/generated/resources").absolutePath) // Outputs to common project
             programArgs "--existing", project(':common').file("src/main/resources").absolutePath // Makes datagen see resources from common folder
         }
 

@@ -1,6 +1,5 @@
 {
   "group_priority": 110,
   "orientation_behavior": "up_down_cardinal",
-  "required_advancement": "minecraft:husbandry/tame_an_animal",
   "texture": "chalk:block/mark/heart"
 }

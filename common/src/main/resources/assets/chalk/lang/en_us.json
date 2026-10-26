@@ -1,6 +1,5 @@
 {
   "block.chalk.mark": "Chalk Mark",
-
   "item.chalk.chalk": "Chalk",
   "item.chalk.white_chalk": "White Chalk",
   "item.chalk.light_gray_chalk": "Light Gray Chalk",
@@ -21,7 +20,6 @@
   "item.chalk.chalk.tooltip.dyeable": "Dyeable",
   "item.chalk.chalk.tooltip.deprecated": "This item is deprecated and will be removed in the future.",
   "item.chalk.chalk.tooltip.deprecated_use_to_convert": "[Use] to convert to the proper item.",
-
   "item.chalk.chalk_box": "Chalk Box",
   "item.chalk.chalk_box.tooltip.open": "§8[§7Use§8] in air to open",
   "item.chalk.chalk_box.tooltip.insert": "§8[§7Right Click§8] with item to insert",
@@ -29,17 +27,12 @@
   "item.chalk.chalk_box.tooltip.change_selected": "§8[§7Sneak + Use§8] in air to cycle selected",
   "item.chalk.chalk_box.tooltip.glow": "Glow: %s",
   "item.chalk.chalk_box.tooltip.alt_select": "§8[§7Alt + Click§8] to select",
-
   "item.chalk.tooltip.hold_for_details": "§8Hold [§7Shift§8] for Details",
-
   "container.chalk.chalk_box": "Chalk Box",
-
   "gui.chalk.mark_symbol.unlocked_by": "Unlocked by: %s",
   "gui.chalk.mark_symbol.supporter_exclusive": "Supporter Exclusive",
   "gui.chalk.no_symbols_unlocked": "You don't know how to draw any special symbol",
-
   "chat.chalk.symbol_unlocked": "You learned how to draw %s with chalk",
-
   "advancement.chalk.home_is_where_the_bed_is.title": "Home Is Where the Bed Is",
   "advancement.chalk.home_is_where_the_bed_is.description": "Sleep in one place three times in a row",
   "advancement.chalk.this_way.title": "This Way!",
@@ -54,13 +47,11 @@
   "advancement.chalk.paint_the_grass.description": "Draw with the green Chalk on the grass or dirt",
   "advancement.chalk.guiding_star.title": "A Guiding Star",
   "advancement.chalk.guiding_star.description": "Make a chalk mark glow in the dark",
-
   "mark_symbol.chalk.arrow": "Arrow",
   "mark_symbol.chalk.dot": "Dot",
   "mark_symbol.chalk.back": "Back",
   "mark_symbol.chalk.check": "Check",
   "mark_symbol.chalk.cross": "Cross",
-
   "mark_symbol.chalk.house": "House",
   "mark_symbol.chalk.heart": "Heart",
   "mark_symbol.chalk.hook": "Hook",
@@ -72,13 +63,11 @@
   "mark_symbol.chalk.moon": "Moon",
   "mark_symbol.chalk.star": "Star",
   "mark_symbol.chalk.grass": "Grass",
-
   "mark_symbol.chalk.sword": "Sword",
   "mark_symbol.chalk.shovel": "Shovel",
   "mark_symbol.chalk.pickaxe": "Pickaxe",
   "mark_symbol.chalk.axe": "Axe",
   "mark_symbol.chalk.hoe": "Hoe",
-
   "mark_symbol.chalk.cat": "Cat",
   "mark_symbol.chalk.dog": "Dog",
   "mark_symbol.chalk.dino": "Dino",
@@ -89,11 +78,9 @@
   "mark_symbol.chalk.lambda": "Lambda",
   "mark_symbol.chalk.flame": "Flame",
   "mark_symbol.chalk.smirk": "Smirk",
-
   "mark_symbol_group.chalk.primary": "Primary",
   "mark_symbol_group.chalk.symbols": "Symbols",
   "mark_symbol_group.chalk.tools": "Tools",
-
   "subtitles.chalk.chalk_broken": "Chalk breaks",
   "subtitles.chalk.mark_drawn": "Chalk draws",
   "subtitles.chalk.mark_removed": "Chalk mark erased",
@@ -101,10 +88,8 @@
   "subtitles.chalk.chalk_box_closes": "Chalk Box closes",
   "subtitles.chalk.chalk_box_changes": "Chalk Box rustles",
   "subtitles.chalk.glow_applied": "Chalk mark glows up",
-
   "tag.item.chalk.chalks": "Chalks",
   "tag.item.chalk.glowings": "Glowings",
-
   "chalk.configuration.glowing_enabled": "Glowing Enabled",
   "chalk.configuration.chalk_dye_colors": "Chalk Dye Colors",
   "chalk.configuration.chalk": "Chalk",
@@ -120,5 +105,10 @@
   "chalk.configuration.symbols": "Symbols",
   "chalk.configuration.unlocking": "Unlocking",
   "chalk.configuration.unlocking_chat_message": "Unlocking Chat Message",
-  "chalk.configuration.glowing_mark_particles": "Glowing Mark Particles"
+  "chalk.configuration.glowing_mark_particles": "Glowing Mark Particles",
+  "item.chalk.redstone_chalk": "Redstone Chalk",
+  "item.chalk.modifier.1": "Glow",
+  "item.chalk.modifier.2": "Waxed",
+  "item.chalk.modifier.4": "Permanent",
+  "item.chalk.modifier.8": "Shining"
 }

@@ -10,10 +10,10 @@
     "tooltip.ClientTooltipComponentMixin"
   ],
   "mixins": [
-    "advancements.PlayerAdvancementsMixin",
-    "advancements.PlayerMixin",
     "chalk_dye_colors.DyedItemColorMixin",
-    "chalk_item_particles.LivingEntityMixin"
+    "chalk_item_particles.LivingEntityMixin",
+    "chalk_dye_colors.ArmorDyeRecipeMixin",
+    "supporters.SupportersMixin"
   ],
   "injectors": {
     "defaultRequire": 1

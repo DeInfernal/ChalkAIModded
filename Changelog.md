@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.1.0-modded - 2026-10-26
+
+- Added dye support for modded DyeItem implementations and Dyenamics' color API; dyeing keeps durability and modifiers.
+- Made every symbol available immediately, removed Chalk advancements and supporter restrictions, and disabled Mortaar's startup supporter-list request.
+- Added stackable chalk modifiers: Glow (glowstone dust or glow ink sac), Waxed (honeycomb), Permanent (honey bottle), and Shining (dragon's breath).
+- Glow applies the glow-ink effect to newly drawn marks. Waxed allows underwater drawing and protects marks against water. Permanent marks require 40 ticks of survival mining; creative removal stays immediate. Shining emits block light level 15.
+- Added full calcite repair for ordinary chalk while preserving color and modifiers.
+- Added fixed dark-red Redstone Chalk from calcite and redstone dust, with built-in Glow, Waxed and Permanent. It cannot be dyed, is repaired with redstone dust, and accepts Shining.
+- Added modifier persistence and synchronization, tooltip labels, returned glass bottles, and a creative inventory entry for Redstone Chalk.
+- Added crafting regression checks in the NeoForge registry environment and a configurable datagen output directory.
+- Added GitHub Actions builds for Fabric and NeoForge on Minecraft 1.21.1, with JAR/ZIP artifacts and GitHub Release publication on version tags or manual request.
+
 ## 2.0.2 - 2026-09-06
 - Updated localization files
 

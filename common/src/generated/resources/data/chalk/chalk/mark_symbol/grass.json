@@ -1,6 +1,5 @@
 {
   "group_priority": 230,
   "orientation_behavior": "cardinal",
-  "required_advancement": "chalk:adventure/paint_the_grass",
   "texture": "chalk:block/mark/grass"
 }

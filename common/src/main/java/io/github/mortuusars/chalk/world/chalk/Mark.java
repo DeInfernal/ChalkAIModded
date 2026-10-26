@@ -12,20 +12,27 @@ import net.minecraft.util.FastColor;
 
 import java.util.Objects;
 
-public record Mark(Holder<MarkSymbol> symbol, int color, SymbolOrientation orientation, boolean glowing) {
+public record Mark(Holder<MarkSymbol> symbol, int color, SymbolOrientation orientation, boolean glowing, boolean waxed, boolean permanent, boolean shining) {
     public static final Codec<Mark> CODEC = RecordCodecBuilder.create(i -> i.group(
           RegistryFixedCodec.create(Chalk.Registries.MARK_SYMBOL).fieldOf("symbol").forGetter(Mark::symbol),
           Codec.INT.optionalFieldOf("color", 0xFFFFFFFF).forGetter(Mark::color),
           SymbolOrientation.CODEC.optionalFieldOf("orientation", SymbolOrientation.CENTER).forGetter(Mark::orientation),
-          Codec.BOOL.optionalFieldOf("glowing", false).forGetter(Mark::glowing)
+          Codec.BOOL.optionalFieldOf("glowing", false).forGetter(Mark::glowing),
+          Codec.BOOL.optionalFieldOf("waxed", false).forGetter(Mark::waxed),
+          Codec.BOOL.optionalFieldOf("permanent", false).forGetter(Mark::permanent),
+          Codec.BOOL.optionalFieldOf("shining", false).forGetter(Mark::shining)
     ).apply(i, Mark::new));
 
+    public Mark(Holder<MarkSymbol> symbol, int color, SymbolOrientation orientation, boolean glowing) {
+        this(symbol, color, orientation, glowing, false, false, false);
+    }
+
     public Mark withSymbol(Holder<MarkSymbol> symbol) {
-        return new Mark(symbol, color, orientation, glowing);
+        return new Mark(symbol, color, orientation, glowing, waxed, permanent, shining);
     }
 
     public Mark withColor(int color) {
-        return new Mark(symbol, color, orientation, glowing);
+        return new Mark(symbol, color, orientation, glowing, waxed, permanent, shining);
     }
 
     public Mark lerpColor(int targetColor, float delta) {
@@ -33,11 +40,11 @@ public record Mark(Holder<MarkSymbol> symbol, int color, SymbolOrientation orien
     }
 
     public Mark withOrientation(SymbolOrientation orientation) {
-        return new Mark(symbol, color, orientation, glowing);
+        return new Mark(symbol, color, orientation, glowing, waxed, permanent, shining);
     }
 
     public Mark withGlowing(boolean glowing) {
-        return new Mark(symbol, color, orientation, glowing);
+        return new Mark(symbol, color, orientation, glowing, waxed, permanent, shining);
     }
 
     public boolean isSameMarkDifferentColors(Mark other) {
@@ -46,15 +53,4 @@ public record Mark(Holder<MarkSymbol> symbol, int color, SymbolOrientation orien
               && other.color() != color();
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (object == null || getClass() != object.getClass()) return false;
-        Mark mark = (Mark) object;
-        return color == mark.color && orientation == mark.orientation && glowing == mark.glowing && Objects.equals(symbol, mark.symbol);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(symbol, color, orientation, glowing);
-    }
 }

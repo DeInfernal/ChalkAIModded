@@ -1,6 +1,5 @@
 {
   "block.chalk.mark": "Метка мелом",
-
   "item.chalk.chalk": "Мел",
   "item.chalk.white_chalk": "Белый мел",
   "item.chalk.light_gray_chalk": "Светло-серый мел",
@@ -21,7 +20,6 @@
   "item.chalk.chalk.tooltip.dyeable": "Можно перекрасить",
   "item.chalk.chalk.tooltip.deprecated": "Этот предмет устарел и будет удален в будущем.",
   "item.chalk.chalk.tooltip.deprecated_use_to_convert": "[Использовать] чтобы преобразовать в нужный предмет.",
-
   "item.chalk.chalk_box": "Коробка для мела",
   "item.chalk.chalk_box.tooltip.open": "§8[§7Использовать§8] в воздухе, чтобы открыть",
   "item.chalk.chalk_box.tooltip.insert": "§8[§7ПКМ§8] с предметом, чтобы положить",
@@ -29,17 +27,12 @@
   "item.chalk.chalk_box.tooltip.change_selected": "§8[§7Шифт + Использовать§8] в воздухе, чтобы выбрать другое",
   "item.chalk.chalk_box.tooltip.glow": "Свечение: %s",
   "item.chalk.chalk_box.tooltip.alt_select": "§8[§7Alt + Клик§8] чтобы выбрать",
-
   "item.chalk.tooltip.hold_for_details": "§8Зажмите [§7Shift§8] для подробностей",
-
   "container.chalk.chalk_box": "Коробка для мела",
-
   "gui.chalk.mark_symbol.unlocked_by": "Открыто: %s",
   "gui.chalk.mark_symbol.supporter_exclusive": "Эксклюзив для поддержавших",
   "gui.chalk.no_symbols_unlocked": "Вы еще не знаете, как рисовать какие-либо особые символы",
-
   "chat.chalk.symbol_unlocked": "Вы научились рисовать %s с помощью мела",
-
   "advancement.chalk.home_is_where_the_bed_is.title": "Дом там, где кровать",
   "advancement.chalk.home_is_where_the_bed_is.description": "Поспите в одном месте три раза подряд",
   "advancement.chalk.this_way.title": "Сюда!",
@@ -54,13 +47,11 @@
   "advancement.chalk.paint_the_grass.description": "Нарисуйте зеленым мелом на траве или земле",
   "advancement.chalk.guiding_star.title": "Путеводная звезда",
   "advancement.chalk.guiding_star.description": "Заставьте метку мелом светиться в темноте",
-
   "mark_symbol.chalk.arrow": "Стрелка",
   "mark_symbol.chalk.dot": "Точка",
   "mark_symbol.chalk.back": "Назад",
   "mark_symbol.chalk.check": "Галочка",
   "mark_symbol.chalk.cross": "Крест",
-
   "mark_symbol.chalk.house": "Дом",
   "mark_symbol.chalk.heart": "Сердце",
   "mark_symbol.chalk.hook": "Крюк",
@@ -72,13 +63,11 @@
   "mark_symbol.chalk.moon": "Луна",
   "mark_symbol.chalk.star": "Звезда",
   "mark_symbol.chalk.grass": "Трава",
-
   "mark_symbol.chalk.sword": "Меч",
   "mark_symbol.chalk.shovel": "Лопата",
   "mark_symbol.chalk.pickaxe": "Кирка",
   "mark_symbol.chalk.axe": "Топор",
   "mark_symbol.chalk.hoe": "Мотыга",
-
   "mark_symbol.chalk.cat": "Кот",
   "mark_symbol.chalk.dog": "Собака",
   "mark_symbol.chalk.dino": "Динозавр",
@@ -89,11 +78,9 @@
   "mark_symbol.chalk.lambda": "Лямбда",
   "mark_symbol.chalk.flame": "Пламя",
   "mark_symbol.chalk.smirk": "Ухмылка",
-
   "mark_symbol_group.chalk.primary": "Основные",
   "mark_symbol_group.chalk.symbols": "Символы",
   "mark_symbol_group.chalk.tools": "Инструменты",
-
   "subtitles.chalk.chalk_broken": "Мел ломается",
   "subtitles.chalk.mark_drawn": "Мел рисует",
   "subtitles.chalk.mark_removed": "Метка мелом стерта",
@@ -101,10 +88,8 @@
   "subtitles.chalk.chalk_box_closes": "Коробка для мела закрывается",
   "subtitles.chalk.chalk_box_changes": "Коробка для мела шуршит",
   "subtitles.chalk.glow_applied": "Метка мелом начинает светиться",
-
   "tag.item.chalk.chalks": "Мелки",
   "tag.item.chalk.glowings": "Светящиеся мелки",
-
   "chalk.configuration.glowing_enabled": "Свечение включено",
   "chalk.configuration.chalk_dye_colors": "Цвета красящего мела",
   "chalk.configuration.chalk": "Мел",
@@ -119,5 +104,10 @@
   "chalk.configuration.chalk_box_tooltip_contents": "Содержимое коробки для мела",
   "chalk.configuration.symbols": "Символы",
   "chalk.configuration.unlocking": "Разблокировка",
-  "chalk.configuration.unlocking_chat_message": "Сообщение в чат при разблокировке"
+  "chalk.configuration.unlocking_chat_message": "Сообщение в чат при разблокировке",
+  "item.chalk.redstone_chalk": "Редстоуновый мелок",
+  "item.chalk.modifier.1": "Glow",
+  "item.chalk.modifier.2": "Waxed",
+  "item.chalk.modifier.4": "Permanent",
+  "item.chalk.modifier.8": "Shining"
 }

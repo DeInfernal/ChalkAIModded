@@ -47,7 +47,10 @@ public record DestroyMarkServerboundPacket(BlockPos pos, Direction face) impleme
         }
 
         if (serverPlayer.level().getBlockState(pos).getBlock() instanceof MarkBlock markBlock) {
-            markBlock.removeMarkWithEffects(player.level(), pos, face);
+            if (player.level().getBlockEntity(pos) instanceof io.github.mortuusars.chalk.world.block.MarkBlockEntity entity
+                && entity.getMarks().get(face) instanceof io.github.mortuusars.chalk.world.chalk.Mark mark
+                && io.github.mortuusars.chalk.world.chalk.MarkMining.canRemove(serverPlayer, pos, face, mark))
+                markBlock.removeMarkWithEffects(player.level(), pos, face);
         }
 
         return true;

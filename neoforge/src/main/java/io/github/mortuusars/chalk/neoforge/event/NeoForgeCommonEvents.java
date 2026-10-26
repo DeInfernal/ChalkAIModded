@@ -27,6 +27,7 @@ public class NeoForgeCommonEvents {
     private static void onCreativeTabsBuild(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
             event.accept(new ItemStack(Chalk.Items.CHALK.get()));
+            event.accept(io.github.mortuusars.chalk.world.item.ChalkModifiers.redstone());
 
             if (Config.Server.ADD_DYED_CHALKS_TO_TAB.get()) {
                 for (DyeColor dyeColor : ChalkColors.ORDERED_DYE_COLORS) {

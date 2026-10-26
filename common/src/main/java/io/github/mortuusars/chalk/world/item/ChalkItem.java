@@ -36,7 +36,7 @@ public class ChalkItem extends Item implements MarkDrawable {
 
     @Override
     public int getMarkDrawingColor(ItemStack stack) {
-        return DyedItemColor.getOrDefault(stack, 0xFFFFFF);
+        return ChalkModifiers.has(stack, ChalkModifiers.REDSTONE) ? 0xA01010 : DyedItemColor.getOrDefault(stack, 0xFFFFFF);
     }
 
     public int getTintColor(ItemStack stack, int index) {
@@ -45,6 +45,7 @@ public class ChalkItem extends Item implements MarkDrawable {
 
     @Override
     public @NotNull String getDescriptionId(ItemStack stack) {
+        if (ChalkModifiers.has(stack, ChalkModifiers.REDSTONE)) return "item.chalk.redstone_chalk";
         if (Config.Server.DYED_CHALK_NAMES.get()) {
             if (!(stack.get(DataComponents.DYED_COLOR) instanceof DyedItemColor dyedColor)) {
                 return "item.chalk.white_chalk";
@@ -60,7 +61,11 @@ public class ChalkItem extends Item implements MarkDrawable {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        if (!stack.has(DataComponents.DYED_COLOR)) {
+        int flags = ChalkModifiers.flags(stack);
+        for (int bit = 1; bit <= 8; bit <<= 1) {
+            if ((flags & bit) != 0) tooltipComponents.add(Component.translatable("item.chalk.modifier." + bit).withStyle(ChatFormatting.GOLD));
+        }
+        if (!stack.has(DataComponents.DYED_COLOR) && !ChalkModifiers.has(stack, ChalkModifiers.REDSTONE)) {
             tooltipComponents.add(Component.translatable("item.chalk.chalk.tooltip.dyeable").withStyle(ChatFormatting.GRAY));
         }
     }
@@ -108,9 +113,7 @@ public class ChalkItem extends Item implements MarkDrawable {
     }
 
     public void onChalkMarkDrawn(Player player, InteractionHand hand, ItemStack stack, BlockPos markPos, Direction markFacing, Mark mark) {
-        if (player instanceof ServerPlayer serverPlayer) {
-            Chalk.CriteriaTriggers.MARK_DRAWN.get().trigger(serverPlayer, stack, markPos, mark, markPos.relative(markFacing.getOpposite()));
-        }
+
     }
 
     // --

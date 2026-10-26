@@ -24,6 +24,10 @@ import static io.github.mortuusars.chalk.world.chalk.symbol.MarkSymbol.Orientati
 public record MarkSymbol(ResourceLocation texture, int rotationOffset, OrientationBehavior orientationBehavior,
                          String group, int groupPriority, Optional<ResourceLocation> requiredAdvancement, boolean supporterOnly) {
 
+    public MarkSymbol {
+        requiredAdvancement = Optional.empty();
+        supporterOnly = false;
+    }
     public static final String GROUP_PRIMARY = "primary";
     public static final ResourceKey<MarkSymbol> ARROW =
           ResourceKey.create(Chalk.Registries.MARK_SYMBOL, Chalk.resource("arrow"));
@@ -156,9 +160,7 @@ public record MarkSymbol(ResourceLocation texture, int rotationOffset, Orientati
         Stream<Holder<MarkSymbol>> stream = lookup.lookupOrThrow(Chalk.Registries.MARK_SYMBOL)
               .listElements()
               .map(ref -> ref);
-        return includeSupporterOnly
-              ? stream
-              : stream.filter(symbol -> !symbol.value().supporterOnly());
+        return stream;
     }
 
     // --
@@ -208,7 +210,7 @@ public record MarkSymbol(ResourceLocation texture, int rotationOffset, Orientati
                          int rotationOffset, OrientationBehavior behavior, String group, int groupPriority,
                          Optional<ResourceLocation> requiredAdvancement, boolean supporterOnly) {
         ResourceLocation texture = key.location().withPrefix("block/mark/");
-        context.register(key, new MarkSymbol(texture, rotationOffset, behavior, group, groupPriority, requiredAdvancement, supporterOnly));
+        context.register(key, new MarkSymbol(texture, rotationOffset, behavior, group, groupPriority, Optional.empty(), false));
     }
 
     // --

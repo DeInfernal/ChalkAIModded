@@ -31,12 +31,13 @@ public class DataGenerators {
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
+        generator.addProvider(event.includeServer(), new io.github.mortuusars.chalk.neoforge.datagen.validation.ChalkValidation(lookupProvider));
+
         // Server
         ModBlockTagsProvider blockTagsProvider = new ModBlockTagsProvider(generator, lookupProvider, existingFileHelper);
         generator.addProvider(event.includeServer(), blockTagsProvider);
         generator.addProvider(event.includeServer(), new ModItemTagsProvider(generator, lookupProvider, blockTagsProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new Recipes(generator, lookupProvider));
-        generator.addProvider(event.includeServer(), new AdvancementProvider(output, lookupProvider, existingFileHelper, List.of(new Advancements())));
         generator.addProvider(event.includeServer(), new LootTableProvider(output, Collections.emptySet(), List.of(
               new LootTableProvider.SubProviderEntry(LootTables.ChestLootTables::new, LootContextParamSets.CHEST)), lookupProvider));
 

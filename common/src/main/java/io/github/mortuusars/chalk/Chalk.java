@@ -59,6 +59,7 @@ public class Chalk {
         CriteriaTriggers.init();
         MenuTypes.init();
         SoundEvents.init();
+        Recipes.init();
 
         Register.serverboundPacket(DrawMarkServerboundPacket.TYPE, DrawMarkServerboundPacket.STREAM_CODEC);
         Register.serverboundPacket(DestroyMarkServerboundPacket.TYPE, DestroyMarkServerboundPacket.STREAM_CODEC);
@@ -79,7 +80,7 @@ public class Chalk {
                     .noOcclusion()
                     .noCollission()
                     .noTerrainParticles()
-                    .lightLevel(state -> state.getValue(MarkBlock.GLOWING) ? 5 : 0)
+                    .lightLevel(state -> state.getValue(MarkBlock.SHINING) ? 15 : state.getValue(MarkBlock.GLOWING) ? 5 : 0)
                     .sound(SoundType.NETHER_WART)));
 
         @SuppressWarnings("removal")
@@ -147,11 +148,19 @@ public class Chalk {
     }
 
     public static class DataComponents {
+        public static final DataComponentType<Integer> MODIFIERS = REGISTRAR.dataComponentType("modifiers",
+            builder -> builder.persistent(com.mojang.serialization.Codec.INT).networkSynchronized(net.minecraft.network.codec.ByteBufCodecs.VAR_INT));
         public static final DataComponentType<ChalkBoxContents> CHALK_BOX_CONTENTS = REGISTRAR.dataComponentType("chalk_box_contents",
               builder -> builder.persistent(ChalkBoxContents.CODEC).networkSynchronized(ChalkBoxContents.STREAM_CODEC).cacheEncoding());
 
         static void init() {
         }
+    }
+
+    public static class Recipes {
+        public static final Supplier<net.minecraft.world.item.crafting.RecipeSerializer<io.github.mortuusars.chalk.world.item.ChalkCraftingRecipe>> CRAFTING =
+            REGISTRAR.recipeSerializer("chalk_modification", () -> new net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer<>(io.github.mortuusars.chalk.world.item.ChalkCraftingRecipe::new));
+        static void init() {}
     }
 
     public static class MenuTypes {

@@ -2,7 +2,7 @@ package io.github.mortuusars.chalk.world.item;
 
 import io.github.mortuusars.chalk.Chalk;
 import io.github.mortuusars.chalk.Config;
-import io.github.mortuusars.chalk.advancements.AdvancementUtils;
+
 import io.github.mortuusars.chalk.network.packet.clientbound.SelectSymbolAndDrawMarkClientboundPacket;
 import io.github.mortuusars.chalk.util.GridCell;
 import io.github.mortuusars.chalk.util.PositionUtils;
@@ -14,7 +14,7 @@ import io.github.mortuusars.chalk.world.chalk.MarkDrawingContext;
 import io.github.mortuusars.chalk.world.chalk.symbol.MarkSymbol;
 import io.github.mortuusars.chalk.world.chalk.symbol.SymbolOrientation;
 import io.github.mortuusars.chalk.world.item.component.ChalkBoxContents;
-import io.github.mortuusars.mortaar.util.supporter.Supporters;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -89,13 +89,18 @@ public interface MarkDrawable {
             case FIXED -> SymbolOrientation.CENTER;
         };
 
-        return new Mark(symbol, getMarkDrawingColor(stack), orientation, shouldDrawGlowingMark(stack));
+        ItemStack chalk = ChalkModifiers.selected(stack);
+        int flags = ChalkModifiers.flags(chalk);
+        return new Mark(symbol, getMarkDrawingColor(stack), orientation,
+            shouldDrawGlowingMark(stack) || (flags & ChalkModifiers.GLOW) != 0,
+            (flags & ChalkModifiers.WAXED) != 0, (flags & ChalkModifiers.PERMANENT) != 0,
+            (flags & ChalkModifiers.SHINING) != 0);
     }
 
     default void selectSymbolAndDraw(Player player, MarkDrawingContext context) {
         if (player instanceof ServerPlayer serverPlayer) {
             List<Holder<MarkSymbol>> availableSymbols = MarkSymbol.getAllHolders(
-                        serverPlayer.registryAccess(), Supporters.isEligibleForGoldenRewards(player.getUUID()))
+                        serverPlayer.registryAccess(), true)
                   .filter(holder -> isSymbolAvailable(serverPlayer, context, holder))
                   .toList();
 
@@ -104,16 +109,15 @@ public interface MarkDrawable {
     }
 
     default boolean isSymbolAvailable(ServerPlayer player, MarkDrawingContext context, Holder<MarkSymbol> symbol) {
-        return player.isCreative()
-              || !Config.Server.SYMBOL_UNLOCKING.get()
-              || symbol.value().requiredAdvancement()
-              .map(advancement -> AdvancementUtils.hasAdvancement(player, advancement))
-              .orElse(true);
+        return true;
     }
 
     default boolean canDrawMark(Player player, MarkDrawingContext context) {
         BlockState markPosState = player.level().getBlockState(context.markPos());
-        if (!markPosState.isAir() && !(markPosState.getBlock() instanceof MarkBlock)) {
+        boolean waxed = ChalkModifiers.has(ChalkModifiers.selected(player.getItemInHand(context.hand())), ChalkModifiers.WAXED);
+        if ((!markPosState.getFluidState().isEmpty() && !waxed)
+            || (!markPosState.isAir() && !(markPosState.getBlock() instanceof MarkBlock)
+                && !(waxed && markPosState.is(net.minecraft.world.level.block.Blocks.WATER)))) {
             return false;
         }
 
@@ -134,10 +138,12 @@ public interface MarkDrawable {
         if (!newMark.symbol().equals(oldMark.symbol())) return true;
         if (newMark.orientation() != oldMark.orientation()) return true;
         if (newMark.color() != oldMark.color()) return true;
-        return newMark.glowing() && !oldMark.glowing();
+        return (newMark.glowing() && !oldMark.glowing()) || (newMark.waxed() && !oldMark.waxed())
+            || (newMark.permanent() && !oldMark.permanent()) || (newMark.shining() && !oldMark.shining());
     }
 
     default boolean drawMark(Player player, MarkDrawingContext context, Mark mark) {
+        if (!canDrawMark(player, context)) return false;
         if (getExistingMark(player.level(), context) instanceof Mark existingMark
               && !shouldMarkReplaceAnother(existingMark, mark)) {
             return false;

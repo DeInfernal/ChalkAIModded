@@ -121,9 +121,9 @@ public class MarkBakedModel implements BakedModel {
 
         Vector3f from = FROM_COORDS.get(direction);
         Vector3f to = TO_COORDS.get(direction);
-        BakedQuad bakedQuad = BAKERY.bakeQuad(from, to, blockPartFace, texture, direction, TRANSFORM, blockPartRotation, !mark.glowing());
+        BakedQuad bakedQuad = BAKERY.bakeQuad(from, to, blockPartFace, texture, direction, TRANSFORM, blockPartRotation, !(mark.glowing() || mark.shining()));
 
-        if (mark.glowing()) {
+        if ((mark.glowing() || mark.shining())) {
             int[] vertexData = bakedQuad.getVertices();
             int step = vertexData.length / 4;
 

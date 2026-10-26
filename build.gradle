@@ -223,7 +223,7 @@ subprojects {
  * Will return an empty string if failed.
  */
 def getLatestVersionChangelog() {
-    def changelogFileName = 'CHANGELOG.md'
+    def changelogFileName = 'Changelog.md'
     def changelogFile = file(changelogFileName)
     if (changelogFile.exists()) {
         def changelogContent = changelogFile.text

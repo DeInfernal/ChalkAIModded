@@ -47,9 +47,11 @@ import org.joml.Vector3f;
 
 import java.util.Optional;
 
-public class MarkBlock extends BaseEntityBlock {
+public class MarkBlock extends BaseEntityBlock implements net.minecraft.world.level.block.SimpleWaterloggedBlock {
     public static final MapCodec<MarkBlock> CODEC = simpleCodec(MarkBlock::new);
 
+    public static final BooleanProperty WATERLOGGED = net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED;
+    public static final BooleanProperty SHINING = BooleanProperty.create("shining");
     public static final BooleanProperty GLOWING = BooleanProperty.create("glowing");
 
     public static final VoxelShape SHAPE_DOWN = Block.box(1.5D, 15.5D, 1.5D, 14.5D, 16D, 14.5D);
@@ -83,12 +85,12 @@ public class MarkBlock extends BaseEntityBlock {
     public MarkBlock(Properties properties) {
         super(properties);
         registerDefaultState(getStateDefinition().any()
-              .setValue(GLOWING, false));
+              .setValue(GLOWING, false).setValue(SHINING, false).setValue(WATERLOGGED, false));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(GLOWING);
+        builder.add(GLOWING, SHINING, WATERLOGGED);
     }
 
     @Override
@@ -137,25 +139,28 @@ public class MarkBlock extends BaseEntityBlock {
         }
 
         boolean glowing = false;
+        boolean shining = false;
 
         for (int i = 0; i < 6; i++) {
             @Nullable Mark mark = blockEntity.getMarks().get(i);
             if (mark != null) {
                 Direction facing = Direction.from3DDataValue(i);
-                if (!canMarkSurvive(level, pos, facing)) {
+                if (!canMarkSurvive(level, pos, facing) || (!mark.waxed() && !level.getFluidState(pos).isEmpty())) {
                     removeMarkWithEffects(level, pos, facing);
-                } else if (mark.glowing()) {
-                    glowing = true;
+                } else {
+                    glowing |= mark.glowing() || mark.shining();
+                    shining |= mark.shining();
                 }
             }
         }
 
+        if (!(level.getBlockState(pos).getBlock() instanceof MarkBlock)) return;
         if (blockEntity.getMarks().isEmpty()) {
-            level.removeBlock(pos, false);
+            level.setBlock(pos, level.getBlockState(pos).getValue(WATERLOGGED) ? net.minecraft.world.level.block.Blocks.WATER.defaultBlockState() : net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(), UPDATE_ALL);
         } else {
             BlockState state = level.getBlockState(pos);
-            if (state.getBlock() instanceof MarkBlock && state.getValue(GLOWING) != glowing) {
-                level.setBlock(pos, state.setValue(GLOWING, glowing), UPDATE_ALL_IMMEDIATE);
+            if (state.getBlock() instanceof MarkBlock && (state.getValue(GLOWING) != glowing || state.getValue(SHINING) != shining)) {
+                level.setBlock(pos, state.setValue(GLOWING, glowing).setValue(SHINING, shining), UPDATE_ALL_IMMEDIATE);
             }
         }
     }
@@ -177,6 +182,24 @@ public class MarkBlock extends BaseEntityBlock {
                 }
             });
         }
+    }
+
+    @Override
+    protected net.minecraft.world.level.material.FluidState getFluidState(BlockState state) {
+        return state.getValue(WATERLOGGED) ? net.minecraft.world.level.material.Fluids.WATER.getSource(false) : super.getFluidState(state);
+    }
+
+    @Override
+    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighbor, net.minecraft.world.level.LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        if (state.getValue(WATERLOGGED)) level.scheduleTick(pos, net.minecraft.world.level.material.Fluids.WATER, net.minecraft.world.level.material.Fluids.WATER.getTickDelay(level));
+        return super.updateShape(state, direction, neighbor, level, pos, neighborPos);
+    }
+
+    @Override
+    public boolean placeLiquid(net.minecraft.world.level.LevelAccessor level, BlockPos pos, BlockState state, net.minecraft.world.level.material.FluidState fluid) {
+        boolean placed = net.minecraft.world.level.block.SimpleWaterloggedBlock.super.placeLiquid(level, pos, state, fluid);
+        if (placed && level instanceof Level realLevel) recheckAndUpdate(realLevel, pos);
+        return placed;
     }
 
     // -- Interact
@@ -204,11 +227,7 @@ public class MarkBlock extends BaseEntityBlock {
             blockEntity.getMarks().set(facing, mark);
             blockEntity.marksChanged();
 
-            if (player instanceof ServerPlayer serverPlayer) {
-                BlockPos surfacePos = pos.relative(facing.getOpposite());
-                Chalk.CriteriaTriggers.MARK_GLOWING.get().trigger(
-                      serverPlayer, mark, pos, level.getBlockState(surfacePos).getMapColor(level, pos));
-            }
+
 
             return ItemInteractionResult.SUCCESS;
         }
@@ -245,8 +264,8 @@ public class MarkBlock extends BaseEntityBlock {
                       0.5f, level.getRandom().nextFloat() * 0.2f + 0.8f);
             }
 
-            if (blockEntity.getMarks().isEmpty()) {
-                level.removeBlock(pos, false);
+            if (blockEntity.getMarks().isEmpty() && level.getBlockState(pos).getBlock() instanceof MarkBlock) {
+                level.setBlock(pos, level.getBlockState(pos).getValue(WATERLOGGED) ? net.minecraft.world.level.block.Blocks.WATER.defaultBlockState() : net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(), UPDATE_ALL);
             }
         }
     }
@@ -278,7 +297,7 @@ public class MarkBlock extends BaseEntityBlock {
             return existingBlockEntity;
         }
 
-        level.setBlock(pos, Chalk.Blocks.MARK.get().defaultBlockState(), UPDATE_ALL_IMMEDIATE);
+        level.setBlock(pos, Chalk.Blocks.MARK.get().defaultBlockState().setValue(WATERLOGGED, level.getFluidState(pos).is(net.minecraft.tags.FluidTags.WATER)), UPDATE_ALL_IMMEDIATE);
 
         return level.getBlockEntity(pos) instanceof MarkBlockEntity existingBlockEntity
               ? existingBlockEntity

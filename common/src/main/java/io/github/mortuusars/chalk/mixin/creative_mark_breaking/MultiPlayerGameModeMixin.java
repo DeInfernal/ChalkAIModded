@@ -33,4 +33,16 @@ public abstract class MultiPlayerGameModeMixin {
             cir.setReturnValue(true);
         }
     }
+    @Inject(method = "continueDestroyBlock", at = @At("HEAD"), cancellable = true)
+    private void chalkPermanentMining(BlockPos pos, Direction face, CallbackInfoReturnable<Boolean> cir) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.level != null && mc.player != null && !mc.player.isCreative()
+            && mc.hitResult instanceof net.minecraft.world.phys.BlockHitResult hit
+            && hit.getBlockPos().equals(pos)
+            && io.github.mortuusars.chalk.world.block.MarkBlock.getMarkAt(mc.level, hit.getLocation()) instanceof io.github.mortuusars.chalk.world.chalk.DrawnMark mark
+            && mark.mark().permanent()) {
+            ClientHelper.attackMarkBlock(pos);
+            cir.setReturnValue(true);
+        }
+    }
 }
